@@ -20,7 +20,7 @@
 11 error There is likely additional logging output above.
 12 error System Linux 3.16.0-4-amd64
 13 error command "/usr/bin/node" "/usr/bin/npm" "start"
-14 error cwd /home/viti/Ana/modulo6/quiz
+14 error cwd /home/ana/miriadax/modulo6/quiz
 15 error node -v v0.10.38
 16 error npm -v 1.4.28
 17 error code ELIFECYCLE
