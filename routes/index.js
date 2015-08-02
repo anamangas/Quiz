@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
 res.render('index', { title: 'Quiz' });
 });
 
+router.param('quizId', quizController.load);  // autoload :quizId
 
 //Registrar las nuevas rutas en el enrutador.
 // Definición de rutas de /quizes
