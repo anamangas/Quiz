@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials'); //importar la factoria express-partials
 var sequelize = require('sequelize');
+var methodOverride = require('method-override');
 
 //---- [2] IMPORTAR ENRUTADORES
 var routes = require('./routes/index');
@@ -30,6 +31,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());  //---[6] INSTALAR MIDDLEWARES
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //----[7]  INSTALAR ENRUTADORES: Asociar rutas a sus gestores.
@@ -56,7 +58,8 @@ if (app.get('env') === 'development') {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: err // print err
+            error: err, // print err
+		errors: []
         });
     });
 }
@@ -68,7 +71,8 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
-        error: {}  //don't print err (empty object)
+        error: {},  //don't print err (empty object)
+	errors: []
     });
 });
 
