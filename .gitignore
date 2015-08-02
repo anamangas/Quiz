@@ -1,4 +1,4 @@
 node_modules
- .DS_Store
-nm-debug.log
+.DS_Store
+npm-debug.log
 quiz.sqlite
