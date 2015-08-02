@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials'); //importar la factoria express-partials
+var sequelize = require('sequelize');
 
 //---- [2] IMPORTAR ENRUTADORES
 var routes = require('./routes/index');
