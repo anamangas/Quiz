@@ -1,3 +1,4 @@
+var express = require('express');
 var router = express.Router();
 //Importamos el controlador de la pregunta
 var quizController = require('../controllers/quiz_controller');

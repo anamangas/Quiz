@@ -8,6 +8,7 @@ Buscar Pregunta: <br />
 <tr>
 <td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
 <td><%= quizes[i].tema %></td>
+<%if(session.user){%>
 <td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
         <td>
           <form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
@@ -16,7 +17,12 @@ Buscar Pregunta: <br />
             </button>
           </form>
         </td>
+<% }%>
 </tr>
 <% } %>
-</table>
-<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+ <%if(session.user){%>
+   <tr>
+      <td><a href="/quizes/new"><button type="button">Crear pregunta</button></a></td>
+   </tr>
+ <% } %>
+ </table>
