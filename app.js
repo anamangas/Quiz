@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var partials = require('express-partials'); //importar la factoria express-partials
 var sequelize = require('sequelize');
 var methodOverride = require('method-override');
+var session = require('express-session');
 
 //---- [2] IMPORTAR ENRUTADORES
 var routes = require('./routes/index');
@@ -30,9 +31,36 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());  //---[6] INSTALAR MIDDLEWARES
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser('Quiz 2015'));//añadir semilla ‘Quiz 2015’ para cifrar cookie
+app.use(session());
+
+// Helpers dinámicos
+app.use(function(req, res, next) {
+
+// Guardar path en session.redir para después de login
+if(!req.path.match(/\/login|\/logout/)) {
+req.session.redir = req.path;
+}
+// Hacer visible req.session en las vistas
+res.locals.session = req.session;
+if (req.session.tiempo){
+      var ultimoTiempo = new Date().getTime();
+      var intervalo = ultimoTiempo - req.session.tiempo;
+      //console.log("intervalo: "+req.session.tiempo);
+      if (intervalo > (2 * 60 * 1000)) {
+         delete req.session.tiempo;
+        req.session.autoLogout = true;   
+         res.redirect("/logout");
+      } else {
+         req.session.tiempo = ultimoTiempo;
+      }
+   };
+
+next();
+});
 
 //----[7]  INSTALAR ENRUTADORES: Asociar rutas a sus gestores.
 //----[7.1]
@@ -75,6 +103,7 @@ app.use(function(err, req, res, next) {
 	errors: []
     });
 });
+
 
 //----[8] exportar app para comando de arranque
 module.exports = app;
