@@ -19,18 +19,20 @@ var Sequelize = require('sequelize'); //importamos la librería del ORM
 //------------------------------------------------------
 // Usar BBDD SQLite o Postgres
 var sequelize = new Sequelize(DB_name, user, pwd,
-{ dialect: protocol,
-protocol: protocol,
-port: port,
-host: host,
-storage: storage, // solo SQLite (.env)
-omitNull: true // solo Postgres
-}
+	{ dialect: protocol,
+	protocol: protocol,
+	port: port,
+	host: host,
+	storage: storage, // solo SQLite (.env)
+	omitNull: true // solo Postgres
+	}
 );
 //------------------------------------------------------
+
 // Importar la definicion de la tabla Quiz en models/quiz.js
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 exports.Quiz = Quiz; // exportar definición de tabla Quiz
+
 // sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync().then(function() {
 // then(..) ejecuta el manejador una vez creada la tabla
@@ -49,3 +51,13 @@ tema: 'otro'
 };
 });
 });
+
+//Importar la definición de la tabla Comment en models/comments.js
+var Comment = sequelize.import(path.join(__dirname,'comments'));
+
+
+//Definimos la relación entre tablas
+Comment.belongsTo(Quiz); //indica que un comment pertenece a un quiz.
+Quiz.hasMany(Comment); //indica que un quiz puede tener muchos comments.
+
+exports.Comment = Comment; //exportar definción de la tabla Comment.
